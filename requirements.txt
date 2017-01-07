@@ -1,0 +1,9 @@
+argparse==1.2.1
+idna==2.2
+pif==0.8.2
+pygodaddy==0.2.2
+requests==2.12.4
+requests-file==1.4.1
+six==1.10.0
+tldextract==2.0.2
+wsgiref==0.1.2
