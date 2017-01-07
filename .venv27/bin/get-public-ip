@@ -1,6 +1,0 @@
-#!/home/tkingless/Development/GoDaddyDDNS/.venv27/bin/python
-
-from pif.commands.get_public_ip import main
-
-if __name__ == "__main__":
-    main()
