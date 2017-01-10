@@ -1,0 +1,27 @@
+Metadata-Version: 2.0
+Name: GoDaddyPy
+Version: 2.1.2
+Summary: A very simple python client used to update the IP address in A records for GoDaddy managed domains.
+Home-page: https://github.com/eXamadeus
+Author: Julian Coy
+Author-email: julian.calvin.coy@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Topic :: Internet :: Name Service (DNS)
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Requires-Dist: requests (>=2.4)
+
+UNKNOWN
+
+
