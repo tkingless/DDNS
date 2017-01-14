@@ -3,11 +3,12 @@
 import os
 import logging
 import pif
-import pygodaddy
+import godaddypy
  
 # GLOBALS
 GODADDY_USERNAME=""
 GODADDY_PASSWORD=""
+DOMAIN="" #something.com
 # The files will be created automatically
 LOGFILE='/SOME/PLACE/godaddy/godaddy.log'
 IPFILE='/SOME/PLACE/godaddy/current_ip'
@@ -43,28 +44,23 @@ def write_ip_file():
   return
  
 def update_dns(public_ip):
-  client = pygodaddy.GoDaddyClient()
-  client.login(GODADDY_USERNAME, GODADDY_PASSWORD)
+  userAccount = godaddypy.Account(api_key=GODADDY_API_KEY, api_secret=GODADDY_API_SECRET)
+  client = godaddypy.Client(userAccount)
  
-  for domain in client.find_domains():
-    for dns_record in client.find_dns_records(domain):
-      logging.debug("Domain '{0}' DNS records: {1}".format(domain, client.find_dns_records(domain)))
-      # only update the bluewolf subdomain
-      if dns_record.hostname == 'bluewolf':
-        if public_ip != dns_record.value:
-            if client.update_dns_record(dns_record.hostname+"."+domain, public_ip):
-              logging.info("Host '{0}' public IP set to '{1}'".format(dns_record.hostname, public_ip))
-              # update our local copy of IP
-              write_ip_file()
-              break
+  for domain in client.get_domains():
+    if domain == DOMAIN:
+        logging.debug("DOMAIN '{0}' found".format(DOMAIN))
+        for dnsRecord in client.get_records(DOMAIN, record_type='A'):
+            if public_ip != dnsRecord['data']:
+                if client.update_record_ip(public_ip, DOMAIN, 'dynamic', 'A'):
+                    logging.info("Host '{0}' public IP set to '{1}'".format(DOMAIN, public_ip))
+                    write_ip_file()
+                    break
+                else:
+                    logging.info("Failed to update Host '{0}' IP to '{1}'".format(DOMAIN, public_ip))
             else:
-              logging.info("Failed to update Host '{0}' IP to '{1}'".format(dns_record.hostname, public_ip))
-        else:
-            logging.info("Nothing was changed")
-            # We are 90% only here because there is no current_ip file. So, we write it now.
-            write_ip_file()
-      else:
-        logging.info("Not Bluewolf: '{0}', skipping".format(dns_record.hostname))
+                logging.info("Nothing changed")
+                write_ip_file()
   return
  
 def constrain_logfile():
@@ -83,7 +79,8 @@ def setup_logfile():
  
 ### BEGIN MAIN PROCEDURE
 setup_logfile()
-public_ip = pif.get_public_ip()
+public_ip = pif.get_public_ip('ident.me')
+logging.debug("public_ip is '{0}'".format(public_ip))
  
 if check_ip_file(public_ip) != 1:
   update_dns(public_ip)
