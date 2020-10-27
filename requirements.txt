@@ -1,6 +1,6 @@
 certifi==2016.9.26
 cffi==1.9.1
-cryptography==1.7.1
+cryptography==3.2
 enum34==1.1.6
 GoDaddyPy==2.1.2
 idna==2.2
